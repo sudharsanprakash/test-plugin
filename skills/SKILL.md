@@ -1,8 +1,8 @@
 ---
-name: building
+name: skills
 description: |
   Generates a house-build timeline spreadsheet (phases, tasks, start/end dates, duration) for planning a home construction or major renovation project.
-  Make sure to use this skill whenever the user mentions building a house, construction, house plan, renovation, contractors, or permits, even if they don't explicitly ask for a "spreadsheet" or "timeline."
+  Make sure to use this skill whenever the user mentions building a house, construction, house plan, renovation, contractors, or permits, even if they don't explicitly ask for a "spreadsheet" or "timeline." Please.
 ---
 
 # Construction Timeline Planner
