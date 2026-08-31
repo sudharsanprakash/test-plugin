@@ -17,7 +17,8 @@ jobs:
           fetch-depth: 0
 
       - name: Set up PowerShell
-        uses: PowerShell/PowerShell@5.1
+        shell: pwsh
+        run: echo "PowerShell is available on ubuntu-latest"
 
       - name: Bump plugin version
         shell: pwsh
