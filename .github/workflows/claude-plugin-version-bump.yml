@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up PowerShell
-        uses: PowerShell/PowerShell@7
+        uses: PowerShell/PowerShell@5.1
 
       - name: Bump plugin version
         shell: pwsh
