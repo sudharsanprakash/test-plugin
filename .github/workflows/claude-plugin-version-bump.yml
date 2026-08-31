@@ -1,0 +1,51 @@
+name: Claude plugin version bump
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up PowerShell
+        uses: PowerShell/PowerShell@v1
+
+      - name: Bump plugin version
+        shell: pwsh
+        run: |
+          $pluginJsonPath = Join-Path $env:GITHUB_WORKSPACE '.claude-plugin/plugin.json'
+          $plugin = Get-Content $pluginJsonPath -Raw | ConvertFrom-Json
+
+          if (-not $plugin.version) {
+            $plugin.version = '1.0.0'
+          }
+
+          $version = [version]::Parse($plugin.version)
+          $newVersion = [version]::new($version.Major, $version.Minor, $version.Build + 1)
+          $plugin.version = $newVersion.ToString()
+
+          $plugin | ConvertTo-Json -Depth 10 | Set-Content -Path $pluginJsonPath -Encoding utf8
+
+          Write-Output "Bumped plugin version to $($plugin.version)"
+
+      - name: Commit and push version bump
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/plugin.json
+          if git diff --cached --quiet; then
+            echo "No version change needed."
+            exit 0
+          fi
+          git commit -m "chore: bump plugin version"
+          git push
